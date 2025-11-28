@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+{% set active_page = 'dashboard' %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <!-- SWEETALERT FLASH -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    {% for category, message in messages %}
+                        Swal.fire({
+                            icon: '{{ 'success' if category == 'success' else 'warning' if category == 'warning' else 'error' }}',
+                            title: '{{ message }}',
+                            confirmButtonColor: '#38bdf8'
+                        });
+                    {% endfor %}
+                });
+            </script>
+        {% endif %}
+    {% endwith %}
+
+    <!-- STATUS DO SCHEDULER -->
+    <div id="scheduler-status" class="alert alert-info d-flex align-items-center shadow-sm mb-3" role="alert">
+        <i class="bi bi-clock-history me-2"></i>
+        <div>
+            🔄 Sistema de envio ativo — última verificação:
+            <strong id="ultima-verificacao">
+                {% if ultima_verificacao %}
+                    {{ ultima_verificacao }}
+                {% else %}
+                    Aguardando primeira verificação...
+                {% endif %}
+            </strong> (hora de Lisboa)
+        </div>
+    </div>
+
+    <script>
+        setInterval(() => {
+            fetch('/api/ultima_verificacao')
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('ultima-verificacao').innerText = data.ultima_verificacao || 'Aguardando...';
+                });
+        }, 30000);
+    </script>
+
+    <!-- CARDS SUPERIORES -->
+    <div class="row mt-4">
+
+        <!-- Próximo Envio -->
+        <div class="col-md-4 mb-4">
+            <div class="card qn-card shadow">
+                <div class="card-body">
+                    <h5 class="card-title text-info"><i class="bi bi-calendar-event me-2"></i> Próximo Envio</h5>
+                    {% if proximas %}
+                        {% for p in proximas %}
+                            <p class="card-text mb-2">
+                                <strong>{{ p.nome }}</strong><br>
+                                📅 {{ p.data1 }} às {{ p.hora1 }}<br>
+                                👥 Grupo: {{ p.grupo or "—" }}
+                            </p>
+                            {% if not loop.last %}<hr>{% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <p>Nenhum envio agendado.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Total clientes -->
+        <div class="col-md-4 mb-4">
+            <div class="card qn-card shadow">
+                <div class="card-body">
+                    <h5 class="card-title text-info"><i class="bi bi-people me-2"></i> Total de Clientes</h5>
+                    <p class="card-text">{{ total_clientes or 'Nenhum cliente cadastrado.' }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Taxa de abertura -->
+        <div class="col-md-4 mb-4">
+            <div class="card qn-card shadow">
+                <div class="card-body">
+                    <h5 class="card-title text-info"><i class="bi bi-clipboard2-pulse me-2"></i> Taxa Média de Abertura</h5>
+                    <p class="card-text">
+                        {% if taxa_media != "—" %}
+                            {{ taxa_media }}%
+                        {% else %}
+                            Sem dados de taxa média.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CAMPAHAS AGENDADAS -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card qn-card shadow">
+                <div class="card-body p-4">
+
+                    <h5 class="card-title text-info"><i class="bi bi-calendar3 me-2"></i> Campanhas Agendadas</h5>
+
+                    {% if campanhas %}
+                        {% for c in campanhas %}
+                        <div class="p-3 mb-3 bg-dark rounded qn-card border border-secondary shadow-sm">
+                            <div class="fw-bold text-info mb-2">
+                                <i class="bi bi-bullseye"></i> {{ c.nome }}
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>📤 <strong>Envio:</strong> {{ c.assunto }} — {{ c.data1 }} às {{ c.hora1 }}</div>
+                                <div class="text-end text-secondary">
+                                    <i class="bi bi-people"></i> Grupo: {{ c.grupo or "—" }}
+                                </div>
+                            </div>
+
+                            <div class="mt-3 d-flex justify-content-between align-items-center">
+                                <span class="badge
+                                    {% if c.status == 'Enviada ✅' %} bg-success
+                                    {% elif c.status == 'Erro ao enviar ❌' %} bg-danger
+                                    {% else %} bg-warning text-dark
+                                    {% endif %}">
+                                    {{ c.status }}
+                                </span>
+
+                                <div>
+                                    <!-- ENVIAR AGORA -->
+                                    <button class="btn btn-sm btn-outline-info me-2" onclick="confirmarEnvioAgora('{{ url_for('enviar', id=c.id) }}')">
+                                        <i class="bi bi-send"></i>
+                                    </button>
+
+                                    <!-- EXCLUIR -->
+                                    <button class="btn btn-sm btn-outline-danger" onclick="confirmarExclusao('{{ url_for('excluir', id=c.id) }}')">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        <div class="text-center mt-4">
+                            <a href="{{ url_for('agendar') }}" class="btn btn-info btn-lg fw-bold px-5">
+                                <i class="bi bi-plus-circle me-2"></i> Agendar Nova Newsletter
+                            </a>
+                        </div>
+
+                    {% else %}
+                        <p>Nenhuma campanha encontrada.</p>
+                        <div class="text-center mt-4">
+                            <a href="{{ url_for('agendar') }}" class="btn btn-info btn-lg fw-bold px-5">
+                                <i class="bi bi-plus-circle me-2"></i> Criar</i>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- SWEETALERT FUNÇÕES -->
+<script>
+function confirmarEnvioAgora(url) {
+    Swal.fire({
+        title: 'Enviar agora?',
+        text: 'A campanha será enviada imediatamente.',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#38bdf8',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim, enviar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(url, { method: 'POST' })
+                .then(() => location.reload());
+        }
+    });
+}
+
+function confirmarExclusao(url) {
+    Swal.fire({
+        title: 'Excluir campanha?',
+        text: 'Esta ação não pode ser desfeita.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#38bdf8',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Excluir',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(url, { method: 'POST' })
+                .then(() => location.reload());
+        }
+    });
+}
+</script>
+
+{% endblock %}

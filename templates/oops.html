@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>OOPS! | Erro </title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='error.css') }}">
+</head>
+
+<body>
+  <main class="oops-page">
+
+    <!-- CARD -->
+    <section class="oops-card">
+      <h1 class="oops-title">OOPS!!</h1>
+
+      <p class="oops-code">Erro {{ code }}</p>
+
+      <p class="oops-text">
+        Algo correu mal ao carregar esta página.
+      </p>
+
+      <div class="oops-actions">
+        <a href="/" class="btn-primary">
+          Voltar ao início
+        </a>
+
+        <button
+          type="button"
+          class="btn-link"
+          onclick="history.back()">
+          Voltar à página anterior
+        </button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
