@@ -1,0 +1,169 @@
+:root {
+    --qn-bg: #050816;
+    --qn-bg-card: #0b1020;
+    --qn-blue: #38bdf8;
+    --qn-blue-soft: rgba(56, 189, 248, 0.25);
+    --qn-text: #e2e8f0;
+    --qn-text-muted: #94a3b8;
+    --qn-radius: 14px;
+    --qn-shadow: 0 18px 45px rgba(0,0,0,0.65);
+}
+
+/* =============================== */
+/*  FUNDO LOGIN + LOGO             */
+/* =============================== */
+
+body.qnova-auth {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--qn-text);
+    font-family: "Inter", system-ui, sans-serif;
+
+    background-image:
+        url("/static/image/main-logo.webp"),
+        linear-gradient(135deg, #0a0f18 0%, #051724 50%, #03121f 100%);
+    background-repeat: no-repeat, no-repeat;
+    background-size: 180px, cover;
+    background-position: top 40px left 60px, center;
+
+    position: relative;
+}
+
+/* REMOVE QUALQUER FUNDO BRANCO POR TRÁS */
+body.qnova-auth main,
+body.qnova-auth .card,
+.auth-container,
+.auth-container-wrapper {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* =============================== */
+/*  CONTAINER DO CARD              */
+/* =============================== */
+
+.auth-container {
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
+    position: relative;
+    z-index: 2;
+}
+
+/* =============================== */
+/*  CARD PRINCIPAL                 */
+/* =============================== */
+
+.auth-card {
+    background: linear-gradient(145deg, #0b0e19 0%, #0c1120 60%);
+    padding: 32px 28px;
+    border-radius: var(--qn-radius);
+    border: 1px solid rgba(148, 163, 184, 0.12);
+    box-shadow: var(--qn-shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-card::before {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    background:
+        radial-gradient(circle at top left, rgba(56,189,248,0.2), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(56,189,248,0.15), transparent 60%);
+    opacity: 0.65;
+    z-index: 0;
+}
+
+.auth-inner {
+    position: relative;
+    z-index: 2;
+}
+
+/* =============================== */
+/*  TEXTOS                         */
+/* =============================== */
+
+.brand-title {
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--qn-text-muted);
+}
+
+.brand-name {
+    margin-top: -4px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    background: linear-gradient(to right, #e2e8f0, #38bdf8, #e2e8f0);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.auth-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.auth-subtitle {
+    color: var(--qn-text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+}
+
+/* =============================== */
+/*  INPUTS                         */
+/* =============================== */
+
+.form-label {
+    font-size: 0.85rem;
+    color: var(--qn-text-muted);
+}
+
+.form-control {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(148,163,184,0.28);
+    border-radius: 10px;
+    color: var(--qn-text);
+    padding: 9px 12px;
+}
+
+.form-control:focus {
+    border-color: var(--qn-blue);
+    box-shadow: 0 0 0 2px var(--qn-blue-soft);
+}
+
+/* =============================== */
+/*  BOTÃO                          */
+/* =============================== */
+
+.auth-button {
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 10px 16px;
+    margin-top: 10px;
+    border: none;
+    background: linear-gradient(135deg, #38bdf8, #0284c7, #0ea5e9);
+    box-shadow: 0 12px 25px rgba(56,189,248,0.35);
+    color: #0b1120;
+    transition: 0.15s ease;
+}
+
+.auth-button:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+}
+
+/* =============================== */
+/*  FOOTER                         */
+/* =============================== */
+
+.auth-footer {
+    margin-top: 18px;
+    font-size: 0.75rem;
+    color: var(--qn-text-muted);
+}

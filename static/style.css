@@ -1,0 +1,268 @@
+/* ========================================================================== */
+/*  VARIÁVEIS GERAIS                                                          */
+/* ========================================================================== */
+
+:root {
+    --qn-bg: #050816;
+    --qn-bg-card: #0b1020;
+    --qn-blue: #38bdf8;
+    --qn-blue-soft: rgba(56, 189, 248, 0.25);
+    --qn-text: #e2e8f0;
+    --qn-text-muted: #94a3b8;
+    --qn-radius: 14px;
+    --qn-shadow: 0 18px 45px rgba(0,0,0,0.65);
+}
+
+/* ========================================================================== */
+/*  GLOBAL                                                                    */
+/* ========================================================================== */
+
+body:not(.qnova-auth) {
+    background: #dfe9f4 !important;
+    color: #1a1a1a;
+    font-family: "Inter", system-ui, sans-serif;
+}
+
+html, body {
+    overflow-x: hidden !important;
+}
+
+/* ========================================================================== */
+/*  SIDEBAR FIXA                                                              */
+/* ========================================================================== */
+
+.sidebar {
+    width: 320px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    background: linear-gradient(145deg, #0b0e19 0%, #0c1120 60%);
+    border-right: 1px solid var(--qn-blue);
+
+    padding: 20px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    color: var(--qn-text);
+    box-shadow: 6px 0 25px rgba(0,0,0,0.45);
+
+    z-index: 900; /* corrigido */
+}
+
+/* Empurra o conteúdo corretamente */
+.main-content {
+    flex: 1;
+    margin-left: 320px;
+    overflow: visible; /* evita cortar dropdowns */
+}
+
+/* ========================================================================== */
+/*  SIDEBAR LINKS E ÁRVORE                                                    */
+/* ========================================================================== */
+
+.sidebar h4 {
+    color: var(--qn-blue);
+    font-weight: 700;
+}
+
+.sidebar .nav-link,
+.sidebar-folder-link {
+    color: var(--qn-text);
+    padding: 8px 10px;
+    border-radius: 8px;
+    display: block;
+    transition: 0.2s ease;
+}
+
+.sidebar .nav-link:hover,
+.sidebar-folder-link:hover,
+.folder-row:hover {
+    background: var(--qn-blue-soft);
+}
+
+.sidebar .nav > .nav-link {
+    font-weight: 600;
+    color: var(--qn-text-muted);
+}
+
+.sidebar i {
+    color: var(--qn-blue);
+}
+
+.folder-caret {
+    font-size: 0.7rem;
+    color: var(--qn-blue);
+}
+
+.sidebar.qnova-open {
+    transform: none !important;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: none !important;
+        width: 320px !important;
+    }
+
+    .main-content {
+        margin-left: 320px !important;
+    }
+}
+
+/* ========================================================================== */
+/*  ÁREA PRINCIPAL ENCARTADA                                                  */
+/* ========================================================================== */
+
+/* Remove fundo branco do main */
+body:not(.qnova-auth) main {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+}
+
+
+main {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+}
+
+/* ========================================================================== */
+/*  CARDS – GLASSMORPHISM                                                     */
+/* ========================================================================== */
+
+.card {
+    background: rgba(255, 255, 255, 0.65) !important; /* leve transparência */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 16px !important;
+    border: 1px solid rgba(255, 255, 255, 0.35) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07) !important;
+    padding: 20px;
+}
+
+/* ========================================================================== */
+/*  CAMPOS DE TEXTO                                                           */
+/* ========================================================================== */
+
+.input-group-text {
+    background: #ffffff !important;
+    color: #6c757d !important;
+    border: 1px solid #d0d4da;
+}
+
+.form-control {
+    background: #ffffff;
+    border: 1px solid #d0d4da;
+    color: #1a1a1a;
+}
+
+.form-control::placeholder {
+    color: var(--qn-text-muted);
+}
+
+/* ========================================================================== */
+/*  BOTÕES                                                                    */
+/* ========================================================================== */
+
+.btn-info {
+    background: linear-gradient(135deg, #38bdf8, #0284c7, #0ea5e9);
+    border: none;
+    color: #0b1120 !important;
+    font-weight: 600;
+    box-shadow: 0 10px 20px rgba(56,189,248,0.3);
+}
+
+.btn-info:hover {
+    filter: brightness(1.08);
+    transform: translateY(-2px);
+}
+
+/* ========================================================================== */
+/*  DROPDOWNS (UNIFICADO E CORRIGIDO)                                         */
+/* ========================================================================== */
+
+.dropdown-menu {
+    z-index: 2000 !important;
+    background: #ffffff !important;
+    color: #1a1a1a !important;
+    border: 1px solid #d0d4da !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12) !important;
+    padding: 8px 0 !important;
+}
+
+.dropdown-item {
+    color: #1a1a1a !important;
+    padding: 8px 16px !important;
+    font-size: 0.95rem !important;
+}
+
+.dropdown-item:hover {
+    background: #e9f5ff !important;
+    color: #0d6efd !important;
+}
+
+/* ========================================================================== */
+/*  USER AREA                                                                 */
+/* ========================================================================== */
+
+.user-area .btn {
+    border-radius: 999px;
+    padding: 8px 18px;
+}
+
+/* ========================================================================== */
+/*  HEADER                                                                    */
+/* ========================================================================== */
+header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ------ MARKDOWN ------ */
+/* Controla espaçamento entre parágrafos renderizados pelo Markdown */
+.markdown-body p {
+  margin-top: 0;          /* remove espaço acima */
+  margin-bottom: 0.5rem;  /* ajusta espaço abaixo (podes reduzir ou aumentar) */
+  line-height: 1.4;       /* controla altura da linha */
+}
+
+/* Opcional: listas mais compactas */
+.markdown-body ul,
+.markdown-body ol {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  padding-left: 1.2rem;   /* controla indentação */
+}
+
+/* Opcional: títulos */
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Sobrescreve fullscreen do EasyMDE para ficar dentro da main-content */
+.main-content .CodeMirror-fullscreen,
+.main-content .editor-toolbar.fullscreen {
+  position: absolute;        /* em vez de fixed */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  width: 100%;               /* ocupa toda a largura da main-content */
+  height: 100%;              /* ocupa toda a altura da main-content */
+  z-index: auto;             /* não precisa sobrepor a sidebar */
+}
+
